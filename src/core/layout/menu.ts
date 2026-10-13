@@ -23,9 +23,10 @@ export const MENU: GrupoMenu[] = [
     modulo: 'Cadastros',
     icone: 'M4 6h16M4 12h16M4 18h10',
     itens: [
-      { nome: 'Produtos', rota: emBreve('cadastros.produtos'), recurso: 'cadastros.produtos', pronto: false },
-      { nome: 'Clientes e fornecedores', rota: emBreve('cadastros.pessoas'), recurso: 'cadastros.pessoas', pronto: false },
-      { nome: 'Veículos e motoristas', rota: emBreve('cadastros.motoristas'), recurso: 'cadastros.motoristas', pronto: false },
+      { nome: 'Produtos', rota: '/cadastros/produtos', recurso: 'cadastros.produtos', pronto: true },
+      { nome: 'Clientes e fornecedores', rota: '/cadastros/pessoas', recurso: 'cadastros.pessoas', pronto: true },
+      { nome: 'Veículos e motoristas', rota: '/cadastros/motoristas', recurso: 'cadastros.motoristas', pronto: true },
+      { nome: 'Configurações tributárias', rota: '/cadastros/tributacao', recurso: 'cadastros.produtos', pronto: true },
     ],
   },
   {

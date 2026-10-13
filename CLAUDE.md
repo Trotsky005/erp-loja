@@ -193,6 +193,19 @@ com dados de teste e atualizar este arquivo.
 - 2026-10-13: Perfil com `admin = true` tem acesso total e ignora a matriz de permissões.
 - 2026-10-13: Nas permissões, criar/editar/cancelar exigem "ver"; tirar "ver" tira as demais.
 - 2026-10-13: Lojas e perfis não são apagados, só desativados. O vínculo usuário×loja pode ser removido.
+- 2026-10-13: **CST nas configurações tributárias** (como vem do Microvix): com 3 códigos =
+  compra | venda dentro do estado | venda fora do estado (ex.: 0.40 | 0.40 | 0.20); com 2 códigos =
+  compra | venda (a venda é igual dentro e fora). CST com origem: 0.40 → 040. As configurações são
+  criadas automaticamente na importação (`lerConfigMicrovix`). Configurações 040→000 com benefício
+  (SP010360 etc.) ficam marcadas "conferir com a contabilidade".
+- 2026-10-13: **CEST ≠ CST**: CEST (7 dígitos) só é obrigatório em produtos com ST (CST 060); conferir na etapa fiscal.
+- 2026-10-13: Catálogo de produtos é único para todas as lojas; o saldo é por loja (módulo de estoque).
+- 2026-10-13: Importação de produtos (arquivo "Registro de Inventário" do Microvix, .xls em HTML, ou CSV):
+  cria os novos e atualiza descrição, preço, NCM, unidade, grupo e impostos dos existentes; **nunca apaga
+  peso já cadastrado**; só grava o que mudou (para não encher a auditoria).
+- 2026-10-13: Peso sugerido: tirado do nome do produto (ex.: "15KG") só para produtos vendidos por
+  unidade/saco, ignorando faixas ("22 A 45KG") e remédios (MG). Fica "a conferir" até alguém aceitar.
+- 2026-10-13: Quem pode montar romaneio (entregas.romaneios/criar) pode alterar **só o peso** do produto.
 
 ## 8. Histórico de mudanças
 - 2026-10-13: especificação inicial.
@@ -208,3 +221,9 @@ com dados de teste e atualizar este arquivo.
 - 2026-10-13: Site publicado na Vercel (projeto `erp-loja`, conta trotsky005's projects):
   **https://erp-loja-ten.vercel.app** — publica sozinho a cada push no `main`. Configuração pública
   do Supabase em `.env.production` (chave publishable; a chave secreta nunca vai para o código).
+- 2026-10-13: **Etapa 2 (cadastros)** — migration `20261013000003_etapa2_cadastros.sql` (config_tributarias,
+  produtos, pessoas, veiculos, motoristas; pg_trgm no schema `extensions`; RPC `aceitar_pesos_sugeridos`);
+  telas Produtos (busca, edição, importação do Microvix, peso sugerido), Configurações tributárias,
+  Clientes e fornecedores (localização colada do Google Maps, dia fixo de entrega, nome da mistura),
+  Veículos e motoristas (Daniel, Betinho, Claudinho, Diego, Nano). Próximo romaneio = 127.
+  Pendente: importar clientes do Microvix (aguardando o arquivo).

@@ -7,6 +7,7 @@ import { Aviso, CabecalhoPagina, Carregando, Modal, Selo, SemPermissao, Vazio } 
 const NOMES_TABELA: Record<string, string> = {
   lojas: 'Lojas', perfis: 'Perfis', perfil_permissoes: 'Permissões', usuarios: 'Usuários',
   usuario_lojas: 'Usuário × loja', parametros: 'Parâmetros',
+  produtos: 'Produtos', config_tributarias: 'Config. tributárias', pessoas: 'Clientes/fornecedores', veiculos: 'Veículos', motoristas: 'Motoristas',
 }
 const NOMES_ACAO = { INSERT: 'Criou', UPDATE: 'Alterou', DELETE: 'Removeu' } as const
 const CORES_ACAO = { INSERT: 'verde', UPDATE: 'ambar', DELETE: 'vermelho' } as const

@@ -11,6 +11,10 @@ import { LojasPage } from './modules/admin/LojasPage'
 import { ParametrosPage } from './modules/admin/ParametrosPage'
 import { PerfisPage } from './modules/admin/PerfisPage'
 import { UsuariosPage } from './modules/admin/UsuariosPage'
+import { ConfigTributariasPage } from './modules/cadastros/ConfigTributariasPage'
+import { MotoristasPage } from './modules/cadastros/MotoristasPage'
+import { PessoasPage } from './modules/cadastros/PessoasPage'
+import { ProdutosPage } from './modules/cadastros/ProdutosPage'
 
 function Rotas() {
   const { carregando, sessao, usuario } = useAuth()
@@ -30,6 +34,11 @@ function Rotas() {
         <Route path="admin/perfis" element={<PerfisPage />} />
         <Route path="admin/parametros" element={<ParametrosPage />} />
         <Route path="admin/auditoria" element={<AuditoriaPage />} />
+        {/* Cadastros */}
+        <Route path="cadastros/produtos" element={<ProdutosPage />} />
+        <Route path="cadastros/pessoas" element={<PessoasPage />} />
+        <Route path="cadastros/motoristas" element={<MotoristasPage />} />
+        <Route path="cadastros/tributacao" element={<ConfigTributariasPage />} />
         {/* Módulos ainda não construídos */}
         <Route path="em-construcao/:codigo" element={<EmConstrucao />} />
         <Route path="*" element={<Navigate to="/" replace />} />
