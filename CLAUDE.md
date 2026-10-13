@@ -200,4 +200,8 @@ com dados de teste e atualizar este arquivo.
   `20261013000001_etapa1_base.sql` (lojas, perfis, recursos, perfil_permissoes, usuarios,
   usuario_lojas, parametros, auditoria, RLS e dados iniciais); telas de login, início, Lojas,
   Usuários, Perfis e permissões, Parâmetros e Auditoria; menu com todos os módulos ("em breve").
-  Banco testado em Postgres local (permissões e auditoria). Pendente: aplicar no Supabase e publicar.
+  Banco testado em Postgres local (permissões e auditoria).
+- 2026-10-13: Banco aplicado no Supabase (projeto `egercwtblyjvbiomukzb`, o antigo do Caixa do Dia,
+  região sa-east-1) + migration `seguranca_funcoes` (search_path fixo, funções sem acesso anônimo).
+  As tabelas antigas do Caixa do Dia (vazias) ainda existem no projeto: a remoção
+  (`20261013000000_remove_caixa_do_dia_antigo.sql`) depende de confirmação no Supabase.
