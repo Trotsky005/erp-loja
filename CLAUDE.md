@@ -205,3 +205,6 @@ com dados de teste e atualizar este arquivo.
   região sa-east-1) + migration `seguranca_funcoes` (search_path fixo, funções sem acesso anônimo).
   As tabelas antigas do Caixa do Dia (vazias) ainda existem no projeto: a remoção
   (`20261013000000_remove_caixa_do_dia_antigo.sql`) depende de confirmação no Supabase.
+- 2026-10-13: Site publicado na Vercel (projeto `erp-loja`, conta trotsky005's projects):
+  **https://erp-loja-ten.vercel.app** — publica sozinho a cada push no `main`. Configuração pública
+  do Supabase em `.env.production` (chave publishable; a chave secreta nunca vai para o código).
