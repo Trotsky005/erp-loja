@@ -38,6 +38,28 @@ cadastros, vendas, estoque, compras, financeiro, caixa diário, fiscal **e entre
   começando sempre em **homologação**
 - Geração de PDF para impressão (romaneio, fechamento de caixa, relatórios) no próprio sistema
 
+## 3.1 Estrutura do projeto
+```
+supabase/migrations/      → mudanças do banco, uma por arquivo, em ordem de data (nunca editar uma já aplicada)
+src/lib/                  → cliente Supabase, tipos das tabelas
+src/core/auth/            → login, usuário logado, lojas permitidas, função pode(recurso, acao)
+src/core/layout/menu.ts   → registro de módulos/telas do menu (incluir aqui cada tela nova)
+src/core/layout/          → menu lateral, barra do topo com seletor de loja
+src/core/ui/              → componentes reutilizáveis (Modal, Aviso, CabecalhoPagina, Selo…)
+src/modules/<modulo>/     → telas de cada módulo (admin, cadastros, entregas, caixa…)
+src/App.tsx               → rotas
+```
+Estilos: Tailwind v4, cor da marca em `--color-marca-*` (src/index.css); classes prontas
+`btn-primario`, `btn-secundario`, `campo`, `rotulo`, `cartao`, `tabela`.
+
+**Como incluir uma tela nova:** (1) migration com as tabelas + RLS + trigger de auditoria;
+(2) registrar o recurso na tabela `recursos`; (3) item em `menu.ts`; (4) rota em `App.tsx`;
+(5) checar permissão com `pode('codigo.recurso', 'ver'|'criar'|'editar'|'cancelar')` na tela.
+
+**Padrões do banco** (ver migration da etapa 1): toda tabela tem `created_at/by`, `updated_at/by`
+(trigger `tg_carimbo`), trigger `tg_auditoria`, RLS ligada e políticas usando `pode()` e
+`tem_acesso_loja()`. Não criar política de DELETE em tabelas de movimento.
+
 ## 4. Usuários e permissões
 Perfis configuráveis: Administrador, Gerente, Financeiro, Caixa, Logística/Expedição, Motorista.
 - Permissão por tela e por ação (ver, criar, editar, cancelar).
@@ -165,6 +187,17 @@ com dados de teste e atualizar este arquivo.
 
 ## 7. Regras de negócio adicionais
 (Adicionar aqui cada regra nova combinada, com data.)
+- 2026-10-13: Acesso de novos usuários: a pessoa pede acesso na tela de login ("Solicitar acesso"),
+  entra **inativa e sem perfil**, e só usa o sistema depois que um administrador define perfil e
+  lojas em Administrativo › Usuários. O **primeiro** usuário cadastrado vira Administrador automaticamente.
+- 2026-10-13: Perfil com `admin = true` tem acesso total e ignora a matriz de permissões.
+- 2026-10-13: Nas permissões, criar/editar/cancelar exigem "ver"; tirar "ver" tira as demais.
+- 2026-10-13: Lojas e perfis não são apagados, só desativados. O vínculo usuário×loja pode ser removido.
 
 ## 8. Histórico de mudanças
 - 2026-10-13: especificação inicial.
+- 2026-10-13: **Etapa 1 concluída (código)** — projeto React/Vite/Tailwind; migration
+  `20261013000001_etapa1_base.sql` (lojas, perfis, recursos, perfil_permissoes, usuarios,
+  usuario_lojas, parametros, auditoria, RLS e dados iniciais); telas de login, início, Lojas,
+  Usuários, Perfis e permissões, Parâmetros e Auditoria; menu com todos os módulos ("em breve").
+  Banco testado em Postgres local (permissões e auditoria). Pendente: aplicar no Supabase e publicar.
