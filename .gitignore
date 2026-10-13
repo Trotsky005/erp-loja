@@ -1,0 +1,24 @@
+# Dependências e build
+node_modules/
+dist/
+build/
+.vite/
+
+# Segredos — NUNCA versionar (o repositório é público)
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+certificados/
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
