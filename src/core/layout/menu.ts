@@ -30,11 +30,19 @@ export const MENU: GrupoMenu[] = [
     ],
   },
   {
+    modulo: 'Vendas',
+    icone: 'M3 4h2l2.5 11h11L21 7H6.2M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z',
+    itens: [
+      { nome: 'Nova venda', rota: '/vendas/nova', recurso: 'vendas.pdv', pronto: true },
+      { nome: 'Vendas e retiradas', rota: '/vendas', recurso: 'vendas.pdv', pronto: true },
+    ],
+  },
+  {
     modulo: 'Entregas',
     icone: 'M3 7h11v9H3zM14 10h4l3 3v3h-7zM7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
     itens: [
-      { nome: 'Quadro de entregas', rota: emBreve('entregas.quadro'), recurso: 'entregas.quadro', pronto: false },
-      { nome: 'Romaneios', rota: emBreve('entregas.romaneios'), recurso: 'entregas.romaneios', pronto: false },
+      { nome: 'Quadro de entregas', rota: '/entregas', recurso: 'entregas.quadro', pronto: true },
+      { nome: 'Romaneios', rota: '/entregas/romaneios', recurso: 'entregas.romaneios', pronto: true },
     ],
   },
   {
@@ -58,13 +66,6 @@ export const MENU: GrupoMenu[] = [
     icone: 'M4 8l8-4 8 4v8l-8 4-8-4zM4 8l8 4 8-4M12 12v8',
     itens: [
       { nome: 'Estoque e compras', rota: emBreve('estoque.movimento'), recurso: 'estoque.movimento', pronto: false },
-    ],
-  },
-  {
-    modulo: 'Vendas',
-    icone: 'M3 4h2l2.5 11h11L21 7H6.2M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z',
-    itens: [
-      { nome: 'PDV / Venda rápida', rota: emBreve('vendas.pdv'), recurso: 'vendas.pdv', pronto: false },
     ],
   },
   {

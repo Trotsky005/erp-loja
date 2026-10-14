@@ -173,14 +173,16 @@ Perfis configuráveis: Administrador, Gerente, Financeiro, Caixa, Logística/Exp
 - Painel inicial: vendas do dia/mês, ticket médio, contas vencendo, estoque crítico, entregas pendentes
 
 ## 6. Ordem de construção
-1. Base: banco, login, perfis, lojas, auditoria
-2. Cadastros (produtos com importação em massa e peso, clientes, motoristas)
-3. **Entregas** (com upload de PDF — substitui o Separador de Notas atual)
-4. **Caixa diário** e financeiro básico (substitui o Caixa do Dia)
-5. Estoque e compras (entrada por XML)
-6. PDV e vendas, ligando vendas → entregas automaticamente
+1. Base: banco, login, perfis, lojas, auditoria ✅
+2. Cadastros (produtos com importação em massa e peso, clientes, motoristas) ✅
+3. **Vendas (pedidos) + saída da mercadoria + entregas/romaneio** ✅ — decisão de 2026-10-14: em vez de
+   subir PDF de nota, a venda é feita no próprio sistema e dela sai tudo (balcão, retirar depois, entrega).
+   Na fase de testes as vendas são **pedidos sem nota fiscal** (`vendas.teste = true`).
+4. **Caixa diário** e financeiro básico (substitui o Caixa do Dia), ligado às vendas/pagamentos
+5. Estoque e compras (entrada por XML), baixando estoque pelas saídas
+6. Melhorias do PDV (leitor, atalhos, orçamento, crediário)
 7. Fiscal (NFC-e/NF-e em homologação, depois produção) — a partir daqui o Microvix pode ser desligado
-8. Crediário, trocas, transferências, contábil, relatórios e painel
+8. Trocas/devoluções, transferências, contábil, relatórios e painel
 
 Em cada etapa: mostrar o esquema das tabelas antes de codificar, entregar telas funcionando
 com dados de teste e atualizar este arquivo.
@@ -206,6 +208,20 @@ com dados de teste e atualizar este arquivo.
 - 2026-10-13: Peso sugerido: tirado do nome do produto (ex.: "15KG") só para produtos vendidos por
   unidade/saco, ignorando faixas ("22 A 45KG") e remédios (MG). Fica "a conferir" até alguém aceitar.
 - 2026-10-13: Quem pode montar romaneio (entregas.romaneios/criar) pode alterar **só o peso** do produto.
+- 2026-10-14: **Saída da mercadoria por item da venda**: "leva agora", "entregar", "retira depois", ou parte
+  agora + resto entrega/retirada. Saldo do item = vendido − saídas (tabelas `saidas`/`saida_itens`, view
+  `venda_itens_saldo`). Retirada posterior no balcão: tela Vendas › abrir pedido › Registrar retirada.
+- 2026-10-14: Venda com item para entregar cria uma `entrega` (status a_separar → em_rota → entregue/cancelada).
+  Entrega parcial no retorno volta para "a separar" só com o que faltou.
+- 2026-10-14: Gravações de venda/entrega/romaneio só pelas funções `finalizar_venda`, `registrar_retirada`,
+  `cancelar_venda`, `criar_romaneio`, `retorno_romaneio`, `cancelar_romaneio` (security definer, conferem
+  `pode()`/`tem_acesso_loja()`); as tabelas só têm política de leitura.
+- 2026-10-14: Alterar preço e dar desconto acima de `desconto_maximo_caixa` (%) exige `vendas.pdv/cancelar`
+  (gerência). Cancelar venda também; venda em rota não pode ser cancelada.
+- 2026-10-14: Romaneio: número vem de `parametros.proximo_romaneio` (continua do 0127); itens iguais somados;
+  mistura = um item em sacos (peso do saco padrão `saco_mistura_kg`); peso faltando é pedido na hora e salvo
+  no produto; impressão = romaneio (1 via) + pedido de entrega por venda (2 vias), sem cliente no romaneio.
+- 2026-10-14: Numeração das vendas por sequence; números podem pular quando uma venda dá erro (normal).
 
 ## 8. Histórico de mudanças
 - 2026-10-13: especificação inicial.
@@ -230,3 +246,9 @@ com dados de teste e atualizar este arquivo.
 - 2026-10-14: Produtos importados (17.478, 18 configurações tributárias). Pesos da planilha Romaneio 2.0
   aplicados (só onde o produto estava sem peso; códigos de barras corrompidos pelo Excel ficaram de fora);
   malhas POP 3212/3213 marcadas como peso insignificante. ~435 pesos sugeridos aguardando conferência.
+- 2026-10-14: **Etapa 3 (vendas + entregas)** — migration `20261014000001_etapa3_vendas_entregas.sql`
+  (formas_pagamento, vendas, venda_itens, venda_pagamentos, entregas, romaneios, romaneio_entregas,
+  romaneio_itens, saidas, saida_itens, views venda_itens_saldo e vendas_resumo, funções de gravação);
+  telas Nova venda, Vendas e retiradas, Quadro de entregas (kanban + montar romaneio), Romaneios (retorno,
+  cancelamento) e impressão (/imprimir/venda/:id, /imprimir/romaneio/:id). Testado em Postgres local e no
+  Supabase (com rollback).

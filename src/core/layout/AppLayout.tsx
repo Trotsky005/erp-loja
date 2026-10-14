@@ -66,7 +66,7 @@ export function AppLayout() {
                 {g.modulo}
               </div>
               {g.itens.map(i => (
-                <NavLink key={i.rota} to={i.rota}
+                <NavLink key={i.rota} to={i.rota} end
                   className={({ isActive }) => `flex items-center justify-between rounded-md px-3 py-1.5 text-sm ${isActive ? 'bg-marca-600 text-white' : 'hover:bg-stone-800 hover:text-white'}`}>
                   <span>{i.nome}</span>
                   {!i.pronto && <span className="text-[10px] uppercase tracking-wide text-stone-500">em breve</span>}

@@ -15,6 +15,11 @@ import { ConfigTributariasPage } from './modules/cadastros/ConfigTributariasPage
 import { MotoristasPage } from './modules/cadastros/MotoristasPage'
 import { PessoasPage } from './modules/cadastros/PessoasPage'
 import { ProdutosPage } from './modules/cadastros/ProdutosPage'
+import { QuadroEntregasPage } from './modules/entregas/QuadroEntregasPage'
+import { RomaneiosPage } from './modules/entregas/RomaneiosPage'
+import { ImprimirRomaneio, ImprimirVenda } from './modules/impressao/Impressao'
+import { NovaVendaPage } from './modules/vendas/NovaVendaPage'
+import { VendasPage } from './modules/vendas/VendasPage'
 
 function Rotas() {
   const { carregando, sessao, usuario } = useAuth()
@@ -26,6 +31,9 @@ function Rotas() {
 
   return (
     <Routes>
+      {/* Impressão (sem menu) */}
+      <Route path="imprimir/venda/:id" element={<ImprimirVenda />} />
+      <Route path="imprimir/romaneio/:id" element={<ImprimirRomaneio />} />
       <Route element={<AppLayout />}>
         <Route index element={<Inicio />} />
         {/* Administrativo */}
@@ -39,6 +47,12 @@ function Rotas() {
         <Route path="cadastros/pessoas" element={<PessoasPage />} />
         <Route path="cadastros/motoristas" element={<MotoristasPage />} />
         <Route path="cadastros/tributacao" element={<ConfigTributariasPage />} />
+        {/* Vendas */}
+        <Route path="vendas" element={<VendasPage />} />
+        <Route path="vendas/nova" element={<NovaVendaPage />} />
+        {/* Entregas */}
+        <Route path="entregas" element={<QuadroEntregasPage />} />
+        <Route path="entregas/romaneios" element={<RomaneiosPage />} />
         {/* Módulos ainda não construídos */}
         <Route path="em-construcao/:codigo" element={<EmConstrucao />} />
         <Route path="*" element={<Navigate to="/" replace />} />
