@@ -227,3 +227,6 @@ com dados de teste e atualizar este arquivo.
   Clientes e fornecedores (localização colada do Google Maps, dia fixo de entrega, nome da mistura),
   Veículos e motoristas (Daniel, Betinho, Claudinho, Diego, Nano). Próximo romaneio = 127.
   Pendente: importar clientes do Microvix (aguardando o arquivo).
+- 2026-10-14: Produtos importados (17.478, 18 configurações tributárias). Pesos da planilha Romaneio 2.0
+  aplicados (só onde o produto estava sem peso; códigos de barras corrompidos pelo Excel ficaram de fora);
+  malhas POP 3212/3213 marcadas como peso insignificante. ~435 pesos sugeridos aguardando conferência.
